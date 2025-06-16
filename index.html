@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -22,67 +21,142 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Kakao Warmth -->
-    <!-- Application Structure Plan: A top-down narrative flow guides users from the event's purpose (Hero, Growth Chart) to key details (Highlights) and finally to clear calls-to-action (Tickets, Get Involved). This funnel structure is designed to first capture interest with visually engaging elements, then provide concrete information, and ultimately make it easy for users to take the next step (registration or other forms of participation). This is more effective for conversion than a simple text-based layout. -->
-    <!-- Visualization & Content Choices: 1. Community Growth (Report Info: 3,000 -> 3,600 members) -> Goal: Show change -> Viz: Bar Chart (Chart.js) -> Interaction: Hover tooltips -> Justification: Visually communicates the event's "why" and momentum. 2. Ticket Urgency (Report Info: Price tiers, deadline) -> Goal: Drive Action -> Viz: Styled HTML cards + Countdown Timer -> Interaction: Dynamic timer updates every second -> Justification: Creates urgency and clarifies ticket options. 3. Key Features (Report Info: AI Leaders, Networking) -> Goal: Organize & Inform -> Viz: Icon-based grid cards (HTML/Tailwind/Unicode) -> Interaction: Hover effects -> Justification: Breaks down benefits into easily scannable, digestible chunks. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Noto Sans KR', sans-serif; }
-        @keyframes scrollDown {
-            0% {
-                background-position: center 0%;
-            }
-            100% {
-                background-position: center 100%;
-            }
+        :root {
+            --retro-red: #E94B3C;
+            --retro-orange: #FF6B35;
+            --retro-yellow: #FFD93D;
+            --retro-blue: #4ECDC4;
+            --retro-dark: #2C3E50;
+            --retro-cream: #FAF3E0;
         }
+        
+        body { 
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--retro-cream);
+        }
+        
+        .font-retro {
+            font-family: 'Black Han Sans', sans-serif;
+        }
+        
+        .font-fun {
+            font-family: 'Do Hyeon', sans-serif;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(-2deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(-2deg); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
         .hero-bg {
-            background-color: #1a1a1a;
-            background-image: url('logo.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: repeat-y;
+            background: radial-gradient(ellipse at top left, var(--retro-orange) 0%, var(--retro-red) 25%, var(--retro-yellow) 50%, var(--retro-blue) 75%, var(--retro-dark) 100%);
             position: relative;
-            animation: scrollDown 10s linear infinite;
+            overflow: hidden;
         }
+        
         .hero-bg::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, 
-                rgba(0, 0, 0, 0.85) 0%, 
-                rgba(0, 0, 0, 0.9) 50%, 
-                rgba(0, 0, 0, 0.85) 100%);
-            z-index: 1;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.1) 35px, rgba(255,255,255,.1) 70px),
+                repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(0,0,0,.05) 35px, rgba(0,0,0,.05) 70px);
+            animation: float 20s linear infinite;
         }
+        
         .hero-bg > * {
             position: relative;
             z-index: 2;
         }
+        
+        .text-shadow-retro {
+            text-shadow: 
+                3px 3px 0px var(--retro-dark),
+                6px 6px 0px rgba(0,0,0,0.2),
+                9px 9px 15px rgba(0,0,0,0.1);
+        }
+        
+        .text-shadow-pop {
+            text-shadow: 
+                2px 2px 0px var(--retro-orange),
+                4px 4px 0px var(--retro-dark);
+        }
+        
         .gradient-text {
-            background: linear-gradient(90deg, #FFC700, #FFDC62);
+            background: linear-gradient(135deg, var(--retro-yellow), var(--retro-orange), var(--retro-red));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .btn-primary {
-            background-color: #FFC700;
-            color: #333;
+        
+        .btn-retro {
+            background: var(--retro-yellow);
+            color: var(--retro-dark);
+            border: 4px solid var(--retro-dark);
+            box-shadow: 
+                4px 4px 0px var(--retro-dark),
+                8px 8px 0px var(--retro-orange);
+            transition: all 0.2s ease;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .btn-retro:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 
+                6px 6px 0px var(--retro-dark),
+                10px 10px 0px var(--retro-orange);
+        }
+        
+        .btn-retro:active {
+            transform: translate(2px, 2px);
+            box-shadow: 
+                2px 2px 0px var(--retro-dark),
+                4px 4px 0px var(--retro-orange);
+        }
+        
+        .card-retro {
+            background: white;
+            border: 4px solid var(--retro-dark);
+            box-shadow: 
+                6px 6px 0px var(--retro-dark),
+                12px 12px 0px var(--retro-blue);
+            position: relative;
             transition: all 0.3s ease;
         }
-        .btn-primary:hover {
-            background-color: #FFDC62;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 199, 0, 0.4);
+        
+        .card-retro:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 
+                9px 9px 0px var(--retro-dark),
+                15px 15px 0px var(--retro-blue);
         }
+        
         .section-title {
             font-weight: 900;
-            color: #333;
             letter-spacing: -0.05em;
         }
+        
         .chart-container {
             position: relative;
             width: 100%;
@@ -92,380 +166,491 @@
             height: 300px;
             max-height: 40vh;
         }
+        
+        .noise {
+            position: relative;
+        }
+        
+        .noise::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAElBMVEUAAAAAAAAAAAAAAAAAAAAAAADgKxmiAAAABnRSTlMCCgkGBAcBqDFRAAAARklEQVQ4y2MYBUMXkAAjBpAGFMIC4QhAFpIAsgqEIEQRkpANIsgqSALIKhBClCI4QXkUNTgCiCpwBFEF7QFENbgDaDX4AQCwAAlgfH3pRAAAAABJRU5ErkJggg==');
+            pointer-events: none;
+        }
+        
+        .sticker {
+            position: absolute;
+            transform: rotate(-15deg);
+            background: var(--retro-yellow);
+            color: var(--retro-dark);
+            padding: 0.5rem 1rem;
+            border: 3px solid var(--retro-dark);
+            border-radius: 50%;
+            font-weight: 900;
+            box-shadow: 3px 3px 0px var(--retro-dark);
+            z-index: 10;
+        }
+        
+        /* Text color utilities */
+        .text-retro-dark { color: var(--retro-dark); }
+        .text-retro-red { color: var(--retro-red); }
+        .text-retro-orange { color: var(--retro-orange); }
+        .text-retro-yellow { color: var(--retro-yellow); }
+        .text-retro-blue { color: var(--retro-blue); }
+        .text-retro-cream { color: var(--retro-cream); }
+        
+        /* Background color utilities */
+        .bg-retro-dark { background-color: var(--retro-dark); }
+        .bg-retro-red { background-color: var(--retro-red); }
+        .bg-retro-orange { background-color: var(--retro-orange); }
+        .bg-retro-yellow { background-color: var(--retro-yellow); }
+        .bg-retro-blue { background-color: var(--retro-blue); }
+        .bg-retro-cream { background-color: var(--retro-cream); }
+        
+        /* Border color utilities */
+        .border-retro-dark { border-color: var(--retro-dark); }
+        .border-retro-red { border-color: var(--retro-red); }
+        .border-retro-orange { border-color: var(--retro-orange); }
+        .border-retro-yellow { border-color: var(--retro-yellow); }
+        .border-retro-blue { border-color: var(--retro-blue); }
+        .border-retro-cream { border-color: var(--retro-cream); }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="text-gray-800">
 
-    <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
-        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <h1 class="text-xl font-bold text-gray-800">ChatGPT와 AI 사용자 모임</h1>
-            <div class="space-x-4 hidden md:block">
-                <a href="#growth" class="text-gray-600 hover:text-yellow-500 transition">행사배경</a>
-                <a href="#details" class="text-gray-600 hover:text-yellow-500 transition">핵심정보</a>
-                <a href="#tickets" class="text-gray-600 hover:text-yellow-500 transition">티켓안내</a>
-                <a href="#involved" class="text-gray-600 hover:text-yellow-500 transition">참여하기</a>
+    <header class="bg-white border-b-4 border-black sticky top-0 z-50 shadow-lg">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img src="retro.png" alt="ABCD AI BEER CHAT DAY" class="h-12 md:h-16 object-contain">
+                <h1 class="text-2xl font-retro text-retro-dark hidden sm:block">AI BEER CHAT DAY</h1>
+            </div>
+            <div class="space-x-6 hidden md:block">
+                <a href="#about" class="font-fun text-lg hover:text-retro-red transition font-bold">행사소개</a>
+                <a href="#experts" class="font-fun text-lg hover:text-retro-red transition font-bold">전문가</a>
+                <a href="#venue" class="font-fun text-lg hover:text-retro-red transition font-bold">장소</a>
+                <a href="#ticket" class="font-fun text-lg hover:text-retro-red transition font-bold">티켓</a>
             </div>
         </nav>
     </header>
 
     <main>
-        <section class="hero-bg text-white py-20 md:py-32">
+        <section id="hero" class="hero-bg text-white py-20 md:py-32 relative noise">
             <div class="container mx-auto px-6 text-center">
-                <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-tight">
-                    <span class="gradient-text">AI Hope Day</span>
-                </h2>
-                <p class="text-lg md:text-2xl mt-4 font-bold">AI에 대한 희망(Hope)과 시원한 호프(Hof) 한 잔!</p>
-                <p class="text-gray-300 mt-2 max-w-2xl mx-auto">카카오 공동체 AI 네트워킹 파티에 여러분을 초대합니다.</p>
-                <div class="mt-8 text-xl font-bold space-y-2">
-                    <p>🗓️ 7월 1일 (화) 저녁 6시</p>
-                    <p>📍 판교역 탭퍼블릭</p>
+                <div class="sticker top-10 right-10 hidden md:block">
+                    <span class="text-2xl">🍺</span>
+                    <span class="text-sm">BEER!</span>
                 </div>
-                <button onclick="document.getElementById('tickets').scrollIntoView({ behavior: 'smooth' });" class="mt-10 px-8 py-4 rounded-full text-lg font-bold btn-primary">
-                    지금 바로 신청하기
-                </button>
+                
+                <div class="relative inline-block mb-8">
+                    <img src="retro.png" alt="AI BEER CHAT DAY" class="w-64 md:w-96 mx-auto rounded-lg border-8 border-white shadow-2xl animate-float">
+                </div>
+                
+                <h2 class="text-6xl md:text-8xl font-retro mb-4 text-white text-shadow-retro">
+                    AI BEER<br>CHAT DAY
+                </h2>
+                
+                <h3 class="text-3xl md:text-4xl font-fun mb-4 text-white bg-retro-dark inline-block px-6 py-2 rounded-lg">
+                    카카오 공동체 AI 네트워킹 파티
+                </h3>
+                
+                <p class="text-2xl md:text-3xl mb-10 font-fun text-white text-shadow-retro">
+                    맥주 한 잔 하면서 AI 이야기! 편하게 만나요 🍺
+                </p>
+                
+                <div class="flex flex-col md:flex-row gap-6 justify-center items-center mb-10">
+                    <div class="bg-white text-retro-dark px-6 py-3 rounded-full font-bold text-xl border-4 border-retro-dark transform rotate-2">
+                        📅 2025년 7월 1일(화) 18:00
+                    </div>
+                    <div class="bg-white text-retro-dark px-6 py-3 rounded-full font-bold text-xl border-4 border-retro-dark transform -rotate-2">
+                        📍 판교역 탭퍼블릭
+                    </div>
+                </div>
+                
+                <a href="#ticket" class="inline-block px-10 py-5 btn-retro font-retro text-2xl rounded-lg transform hover:scale-105 transition">
+                    티켓 구매하기 →
+                </a>
             </div>
         </section>
         
-        <section id="growth" class="py-16 md:py-24 bg-white">
-            <div class="container mx-auto px-6 text-center">
-                <h3 class="section-title text-3xl md:text-4xl">함께 만든 폭발적인 성장!</h3>
-                <p class="mt-4 max-w-2xl mx-auto text-gray-600">
-                    여러분의 뜨거운 관심 덕분에 ChatGPT 아지트는 3,000명을 넘어 3,600명 규모로 성장했습니다.
-                    이제 4,000명을 향한 다음 스텝을 함께 내딛고자 합니다.
-                </p>
-                <div class="mt-12 chart-container">
-                    <canvas id="growthChart"></canvas>
+        <section id="growth" class="py-20 md:py-32 bg-retro-blue relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute transform rotate-45 -left-20 top-20 w-40 h-40 bg-retro-yellow"></div>
+                <div class="absolute transform rotate-12 -right-10 bottom-10 w-60 h-60 bg-retro-red rounded-full"></div>
+            </div>
+            <div class="container mx-auto px-6 text-center relative z-10">
+                <h3 class="font-retro text-4xl md:text-6xl text-white text-shadow-retro mb-8">폭발적인 성장!</h3>
+                <div class="bg-white p-8 rounded-2xl border-4 border-retro-dark max-w-2xl mx-auto card-retro">
+                    <p class="text-xl font-fun text-retro-dark mb-6">
+                        여러분의 뜨거운 관심 덕분에<br>
+                        <span class="text-3xl font-bold text-retro-red">3,000명 → 3,600명</span>으로 성장!
+                    </p>
+                    <div class="text-5xl font-retro text-retro-orange mb-4">
+                        📈 4,000명 목표!
+                    </div>
+                    <div class="mt-8 chart-container">
+                        <canvas id="growthChart"></canvas>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section id="details" class="py-16 md:py-24 bg-gray-50">
+        <section id="about" class="py-20 md:py-32 bg-white relative">
             <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h3 class="section-title text-3xl md:text-4xl">'AI Hope Day'만의 특별함</h3>
-                    <p class="mt-4 max-w-2xl mx-auto text-gray-600">
-                        딱딱한 세미나는 그만! 네트워킹에 최적화된 환경에서 새로운 영감을 얻어 가세요.
-                    </p>
+                <div class="text-center mb-16">
+                    <h3 class="font-retro text-4xl md:text-6xl text-retro-dark text-shadow-pop">AI HOPE DAY</h3>
+                    <div class="text-2xl font-fun text-retro-red mt-4">딱딱한 세미나는 그만! 편하게 맥주 한 잔 하면서!</div>
                 </div>
 
-                <div class="mt-16 bg-white p-8 rounded-2xl shadow-sm text-center">
-                    <h4 class="text-2xl font-bold">이런 분들께 추천해요!</h4>
-                    <ul class="mt-4 text-gray-600 space-y-2 max-w-lg mx-auto">
-                        <li class="flex items-center justify-center"><span class="text-yellow-500 mr-2">✔️</span> AI 최신 트렌드와 인사이트가 궁금하신 분</li>
-                        <li class="flex items-center justify-center"><span class="text-yellow-500 mr-2">✔️</span> 다양한 동료와 편하게 AI에 대해 이야기하고픈 분</li>
-                        <li class="flex items-center justify-center"><span class="text-yellow-500 mr-2">✔️</span> AI 전문가들과 네트워크를 만들고 싶으신 분</li>
+                <div class="bg-retro-yellow p-10 rounded-2xl border-4 border-retro-dark card-retro text-center max-w-3xl mx-auto mt-16">
+                    <h4 class="text-3xl font-retro text-retro-dark mb-6">이런 분들께 추천!</h4>
+                    <ul class="text-xl font-fun text-retro-dark space-y-3">
+                        <li class="flex items-center justify-center"><span class="text-3xl mr-3">🤖</span> AI 최신 트렌드와 인사이트가 궁금하신 분</li>
+                        <li class="flex items-center justify-center"><span class="text-3xl mr-3">🍻</span> 다양한 동료와 편하게 AI에 대해 이야기하고픈 분</li>
+                        <li class="flex items-center justify-center"><span class="text-3xl mr-3">🤝</span> AI 전문가들과 네트워크를 만들고 싶으신 분</li>
                     </ul>
                 </div>
 
-                <div class="grid md:grid-cols-3 gap-8 mt-16">
-                    <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300">
-                        <span class="text-4xl">💬</span>
-                        <h4 class="text-2xl font-bold mt-4">AI 전문가와 함께</h4>
-                        <p class="mt-2 text-gray-600">사내외 AI 전문가 20여 명이 호스트로 참여하여 깊이 있는 대화와 인사이트를 나눕니다.</p>
+                <div class="grid md:grid-cols-3 gap-10 mt-20">
+                    <div class="card-retro p-8 text-center transform hover:-rotate-2 transition-transform">
+                        <div class="text-6xl mb-4">💬</div>
+                        <h4 class="text-2xl font-retro text-retro-dark mb-3">AI 전문가와 함께</h4>
+                        <p class="font-fun text-lg text-gray-700">사내외 AI 전문가 20여 명이 호스트로 참여하여 깊이 있는 대화와 인사이트를 나눕니다.</p>
                     </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300">
-                        <span class="text-4xl">🍻</span>
-                        <h4 class="text-2xl font-bold mt-4">자유로운 네트워킹</h4>
-                        <p class="mt-2 text-gray-600">지정된 자리 없이, 시원한 맥주와 함께 다양한 분야의 동료들과 자유롭게 교류하세요.</p>
+                    <div class="card-retro p-8 text-center transform hover:rotate-2 transition-transform">
+                        <div class="text-6xl mb-4">🍻</div>
+                        <h4 class="text-2xl font-retro text-retro-dark mb-3">자유로운 네트워킹</h4>
+                        <p class="font-fun text-lg text-gray-700">지정된 자리 없이, 시원한 맥주와 함께 다양한 분야의 동료들과 자유롭게 교류하세요.</p>
                     </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300">
-                        <span class="text-4xl">💡</span>
-                        <h4 class="text-2xl font-bold mt-4">당신이 찾는 리더</h4>
-                        <p class="mt-2 text-gray-600">만나고 싶은 리더가 있나요? 직접 추천해 주세요! 우리가 섭외해 보겠습니다.</p>
+                    <div class="card-retro p-8 text-center transform hover:-rotate-2 transition-transform">
+                        <div class="text-6xl mb-4">💡</div>
+                        <h4 class="text-2xl font-retro text-retro-dark mb-3">당신이 찾는 리더</h4>
+                        <p class="font-fun text-lg text-gray-700">만나고 싶은 리더가 있나요? 직접 추천해 주세요! 우리가 섭외해 보겠습니다.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="experts" class="py-16 md:py-24 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h3 class="section-title text-3xl md:text-4xl">함께하는 AI 전문가</h3>
-                    <p class="mt-4 max-w-2xl mx-auto text-gray-600">
-                        사내외 AI 전문가 20여 명이 호스트로 참여하여 여러분과 인사이트를 나눕니다.
+        <section id="experts" class="py-20 md:py-32 bg-retro-orange relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute transform -rotate-12 left-10 top-10 w-64 h-64 bg-retro-yellow rounded-full"></div>
+                <div class="absolute transform rotate-45 right-20 bottom-20 w-48 h-48 bg-retro-red"></div>
+            </div>
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="text-center mb-16">
+                    <h3 class="font-retro text-4xl md:text-6xl text-retro-dark bg-white inline-block px-8 py-4 rounded-lg mb-4">함께하는 AI 전문가</h3>
+                    <p class="text-xl font-fun text-retro-dark bg-white/90 inline-block px-6 py-3 rounded-lg">
+                        사내외 AI 전문가 20여 명이 호스트로 참여하여 여러분과 인사이트를 나눕니다
                     </p>
                 </div>
                 
                 <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 max-w-6xl mx-auto">
                     <!-- 양정석 -->
-                    <div class="text-center">
-                        <img src="experts/andrew.0.png" alt="양정석" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">andrew.0 (양정석)</h4>
-                        <p class="text-sm text-gray-600">카카오</p>
-                        <p class="text-xs text-gray-500">AI Engineering</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/andrew.0.png" alt="양정석" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-retro-dark">andrew.0</h4>
+                        <p class="font-fun text-lg">(양정석)</p>
+                        <p class="text-sm font-bold text-retro-red">카카오</p>
+                        <p class="text-xs">AI Engineering</p>
                     </div>
                     <!-- 이호정 -->
-                    <div class="text-center">
-                        <img src="experts/benedict.lee.png" alt="이호정" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">benedict.lee (이호정)</h4>
-                        <p class="text-sm text-gray-600">카카오</p>
-                        <p class="text-xs text-gray-500">AI Native Company TF</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/benedict.lee.png" alt="이호정" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-retro-dark">benedict.lee</h4>
+                        <p class="font-fun text-lg">(이호정)</p>
+                        <p class="text-sm font-bold text-retro-red">카카오</p>
+                        <p class="text-xs">AI Native Company TF</p>
                     </div>
                     <!-- 김민석 -->
-                    <div class="text-center">
-                        <img src="experts/marko.k.png" alt="김민석" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">marko.k (김민석)</h4>
-                        <p class="text-sm text-gray-600">카카오</p>
-                        <p class="text-xs text-gray-500">AI Alignment</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/marko.k.png" alt="김민석" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-retro-dark">marko.k</h4>
+                        <p class="font-fun text-lg">(김민석)</p>
+                        <p class="text-sm font-bold text-retro-red">카카오</p>
+                        <p class="text-xs">AI Alignment</p>
                     </div>
                     <!-- 장원준 -->
-                    <div class="text-center">
-                        <img src="experts/joel.j.png" alt="장원준" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">joel.j (장원준)</h4>
-                        <p class="text-sm text-gray-600">카카오</p>
-                        <p class="text-xs text-gray-500">AI Alignment</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/joel.j.png" alt="장원준" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-retro-dark">joel.j</h4>
+                        <p class="font-fun text-lg">(장원준)</p>
+                        <p class="text-sm font-bold text-retro-red">카카오</p>
+                        <p class="text-xs">AI Alignment</p>
                     </div>
                     <!-- 오창화 -->
-                    <div class="text-center">
-                        <img src="experts/herschel.alway.png" alt="오창화" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">herschel.alway (오창화)</h4>
-                        <p class="text-sm text-gray-600">카카오</p>
-                        <p class="text-xs text-gray-500">클린플랫폼</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/herschel.alway.png" alt="오창화" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-retro-dark">herschel.alway</h4>
+                        <p class="font-fun text-lg">(오창화)</p>
+                        <p class="text-sm font-bold text-retro-red">카카오</p>
+                        <p class="text-xs">클린플랫폼</p>
                     </div>
                     <!-- 박시용 -->
-                    <div class="text-center">
-                        <img src="experts/young.psy.png" alt="박시용" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">young.psy (박시용)</h4>
-                        <p class="text-sm text-gray-600">카카오모빌리티</p>
-                        <p class="text-xs text-gray-500">차량관리서비스파트</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/young.psy.png" alt="박시용" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-retro-dark">young.psy</h4>
+                        <p class="font-fun text-lg">(박시용)</p>
+                        <p class="text-sm font-bold text-retro-red">카카오모빌리티</p>
+                        <p class="text-xs">차량관리서비스파트</p>
                     </div>
                     <!-- 차현승 (확인중) -->
-                    <div class="text-center">
-                        <img src="experts/unknown.png" alt="차현승" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">tony (차현승)</h4>
-                        <p class="text-sm text-gray-600">확인중</p>
-                        <p class="text-xs text-gray-500">카카오 AI Advanced 교육 강사</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/unknown.png" alt="차현승" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-retro-dark">tony</h4>
+                        <p class="font-fun text-lg">(차현승)</p>
+                        <p class="text-sm font-bold text-retro-red">확인중</p>
+                        <p class="text-xs">카카오 AI Advanced 교육 강사</p>
                     </div>
-                    <!-- 섭외중 9 -->
-                    <div class="text-center">
-                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">(섭외중)</h4>
-                        <p class="text-sm text-gray-600">-</p>
-                        <p class="text-xs text-gray-500">-</p>
+                    <!-- 섭외중 프로필들 -->
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-gray-400">(섭외중)</h4>
+                        <p class="font-fun text-lg text-gray-400">-</p>
+                        <p class="text-sm font-bold text-gray-400">-</p>
+                        <p class="text-xs text-gray-400">-</p>
                     </div>
-                    <!-- 섭외중 10 -->
-                    <div class="text-center">
-                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">(섭외중)</h4>
-                        <p class="text-sm text-gray-600">-</p>
-                        <p class="text-xs text-gray-500">-</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-gray-400">(섭외중)</h4>
+                        <p class="font-fun text-lg text-gray-400">-</p>
+                        <p class="text-sm font-bold text-gray-400">-</p>
+                        <p class="text-xs text-gray-400">-</p>
                     </div>
-                    <!-- 섭외중 11 -->
-                    <div class="text-center">
-                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">(섭외중)</h4>
-                        <p class="text-sm text-gray-600">-</p>
-                        <p class="text-xs text-gray-500">-</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-gray-400">(섭외중)</h4>
+                        <p class="font-fun text-lg text-gray-400">-</p>
+                        <p class="text-sm font-bold text-gray-400">-</p>
+                        <p class="text-xs text-gray-400">-</p>
                     </div>
-                    <!-- 섭외중 12 -->
-                    <div class="text-center">
-                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">(섭외중)</h4>
-                        <p class="text-sm text-gray-600">-</p>
-                        <p class="text-xs text-gray-500">-</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-gray-400">(섭외중)</h4>
+                        <p class="font-fun text-lg text-gray-400">-</p>
+                        <p class="text-sm font-bold text-gray-400">-</p>
+                        <p class="text-xs text-gray-400">-</p>
                     </div>
-                    <!-- 섭외중 13 -->
-                    <div class="text-center">
-                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">(섭외중)</h4>
-                        <p class="text-sm text-gray-600">-</p>
-                        <p class="text-xs text-gray-500">-</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-gray-400">(섭외중)</h4>
+                        <p class="font-fun text-lg text-gray-400">-</p>
+                        <p class="text-sm font-bold text-gray-400">-</p>
+                        <p class="text-xs text-gray-400">-</p>
                     </div>
-                    <!-- 섭외중 14 -->
-                    <div class="text-center">
-                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">(섭외중)</h4>
-                        <p class="text-sm text-gray-600">-</p>
-                        <p class="text-xs text-gray-500">-</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-gray-400">(섭외중)</h4>
+                        <p class="font-fun text-lg text-gray-400">-</p>
+                        <p class="text-sm font-bold text-gray-400">-</p>
+                        <p class="text-xs text-gray-400">-</p>
                     </div>
-                    <!-- 섭외중 15 -->
-                    <div class="text-center">
-                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">(섭외중)</h4>
-                        <p class="text-sm text-gray-600">-</p>
-                        <p class="text-xs text-gray-500">-</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-gray-400">(섭외중)</h4>
+                        <p class="font-fun text-lg text-gray-400">-</p>
+                        <p class="text-sm font-bold text-gray-400">-</p>
+                        <p class="text-xs text-gray-400">-</p>
                     </div>
-                    <!-- 섭외중 16 -->
-                    <div class="text-center">
-                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">(섭외중)</h4>
-                        <p class="text-sm text-gray-600">-</p>
-                        <p class="text-xs text-gray-500">-</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-gray-400">(섭외중)</h4>
+                        <p class="font-fun text-lg text-gray-400">-</p>
+                        <p class="text-sm font-bold text-gray-400">-</p>
+                        <p class="text-xs text-gray-400">-</p>
                     </div>
-                    <!-- 섭외중 17 -->
-                    <div class="text-center">
-                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">(섭외중)</h4>
-                        <p class="text-sm text-gray-600">-</p>
-                        <p class="text-xs text-gray-500">-</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-gray-400">(섭외중)</h4>
+                        <p class="font-fun text-lg text-gray-400">-</p>
+                        <p class="text-sm font-bold text-gray-400">-</p>
+                        <p class="text-xs text-gray-400">-</p>
                     </div>
-                    <!-- 섭외중 18 -->
-                    <div class="text-center">
-                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">(섭외중)</h4>
-                        <p class="text-sm text-gray-600">-</p>
-                        <p class="text-xs text-gray-500">-</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-gray-400">(섭외중)</h4>
+                        <p class="font-fun text-lg text-gray-400">-</p>
+                        <p class="text-sm font-bold text-gray-400">-</p>
+                        <p class="text-xs text-gray-400">-</p>
                     </div>
-                    <!-- 섭외중 19 -->
-                    <div class="text-center">
-                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">(섭외중)</h4>
-                        <p class="text-sm text-gray-600">-</p>
-                        <p class="text-xs text-gray-500">-</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-gray-400">(섭외중)</h4>
+                        <p class="font-fun text-lg text-gray-400">-</p>
+                        <p class="text-sm font-bold text-gray-400">-</p>
+                        <p class="text-xs text-gray-400">-</p>
                     </div>
-                    <!-- 섭외중 20 -->
-                    <div class="text-center">
-                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">(섭외중)</h4>
-                        <p class="text-sm text-gray-600">-</p>
-                        <p class="text-xs text-gray-500">-</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-gray-400">(섭외중)</h4>
+                        <p class="font-fun text-lg text-gray-400">-</p>
+                        <p class="text-sm font-bold text-gray-400">-</p>
+                        <p class="text-xs text-gray-400">-</p>
                     </div>
-                    <!-- 섭외중 21 -->
-                    <div class="text-center">
-                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-3 border-gray-200 object-cover">
-                        <h4 class="mt-3 font-bold text-gray-800">(섭외중)</h4>
-                        <p class="text-sm text-gray-600">-</p>
-                        <p class="text-xs text-gray-500">-</p>
+                    <div class="bg-white p-4 rounded-xl border-4 border-retro-dark transform hover:scale-105 transition-transform text-center">
+                        <img src="experts/unknown.png" alt="섭외중" class="w-24 h-24 mx-auto rounded-full border-4 border-retro-dark object-cover">
+                        <h4 class="mt-3 font-retro text-gray-400">(섭외중)</h4>
+                        <p class="font-fun text-lg text-gray-400">-</p>
+                        <p class="text-sm font-bold text-gray-400">-</p>
+                        <p class="text-xs text-gray-400">-</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="event" class="py-16 md:py-24 bg-gray-50">
-            <div class="container mx-auto px-6">
-                <div class="bg-gradient-to-r from-yellow-50 to-yellow-100 p-8 rounded-2xl shadow-lg text-center">
-                    <h4 class="text-3xl font-bold text-gray-800 mb-4">🎁 특별 경품 이벤트</h4>
-                    <p class="text-xl font-bold text-gray-700 mb-6">4,000명 달성 기원! 행사 당일 추첨</p>
-                    <div class="max-w-2xl mx-auto bg-white rounded-xl overflow-hidden shadow-md">
-                        <img src="f108.jpg" alt="F108 독거미 키보드" class="w-full h-64 object-cover">
-                        <div class="p-6">
-                            <h5 class="text-2xl font-bold mb-2">F108 독거미 키보드</h5>
-                            <p class="text-gray-600 mb-4">장안의 화제! 가성비 극강의 프리미엄 기계식 키보드</p>
-                            <div class="bg-yellow-100 p-4 rounded-lg">
-                                <p class="text-lg font-bold text-yellow-800">총 4명 추첨</p>
-                                <p class="text-sm text-gray-600 mt-1">행사 참가자 대상 현장 추첨</p>
-                                <p class="text-sm text-gray-600">색상 별 2명씩</p>
-                            </div>
+        <section id="event" class="py-20 md:py-32 bg-retro-yellow relative overflow-hidden">
+            <div class="absolute inset-0 opacity-20">
+                <div class="absolute transform rotate-12 -left-10 top-20 w-40 h-40 bg-retro-red rounded-full"></div>
+                <div class="absolute transform -rotate-45 right-10 bottom-10 w-60 h-60 bg-retro-blue"></div>
+            </div>
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="text-center mb-12">
+                    <h3 class="font-retro text-5xl md:text-7xl text-retro-dark text-shadow-pop mb-4">🎁 특별 경품!</h3>
+                    <p class="text-2xl font-fun text-retro-dark">4,000명 달성 기원! 행사 당일 추첨</p>
+                </div>
+                <div class="card-retro max-w-2xl mx-auto p-8 bg-white transform rotate-1 relative">
+                    <div class="sticker -top-8 -right-8">
+                        <span class="text-xl">🎉</span>
+                        <span class="text-sm">EVENT!</span>
+                    </div>
+                    <img src="f108.jpg" alt="F108 독거미 키보드" class="w-full h-64 object-cover rounded-lg border-4 border-retro-dark">
+                    <div class="text-center mt-6">
+                        <h5 class="text-3xl font-retro text-retro-dark mb-3">F108 독거미 키보드</h5>
+                        <p class="text-xl font-fun text-gray-700 mb-6">장안의 화제! 가성비 극강의 프리미엄 기계식 키보드</p>
+                        <div class="bg-retro-red text-white p-6 rounded-xl border-4 border-retro-dark inline-block transform -rotate-2">
+                            <p class="text-3xl font-retro mb-2">총 4명 추첨</p>
+                            <p class="text-lg font-fun">행사 참가자 대상 현장 추첨</p>
+                            <p class="text-md">색상 별 2명씩</p>
                         </div>
                     </div>
-                    <p class="mt-6 text-gray-600">후원은 언제든지 환영입니다!</p>
+                    <p class="mt-8 text-xl font-fun text-retro-dark">후원은 언제든지 환영합니다! 🙏</p>
                 </div>
             </div>
         </section>
 
-        <section id="venue" class="py-16 md:py-24 bg-white">
+        <section id="venue" class="py-20 md:py-32 bg-white relative">
             <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h3 class="section-title text-3xl md:text-4xl">행사 장소 안내</h3>
-                    <p class="mt-4 max-w-2xl mx-auto text-gray-600">
-                        판교역 인근 탭퍼블릭에서 편안한 분위기 속에서 진행됩니다.
+                <div class="text-center mb-16">
+                    <h3 class="font-retro text-4xl md:text-6xl text-retro-dark text-shadow-pop mb-4">행사 장소 안내</h3>
+                    <p class="text-xl font-fun text-gray-700">
+                        판교역 인근 탭퍼블릭에서 편안한 분위기 속에서 진행됩니다
                     </p>
-                    <p class="mt-2 max-w-2xl mx-auto text-lg font-bold text-yellow-600">
-                        🍺 다양한 수제 맥주와 음료, 맛있는 안주가 준비되어 있습니다.
+                    <p class="text-2xl font-retro text-retro-orange mt-4">
+                        🍺 다양한 수제 맥주와 음료, 맛있는 안주가 준비되어 있습니다
                     </p>
                 </div>
                 
-                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg">
+                <div class="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
+                    <div class="card-retro overflow-hidden">
                         <img src="tabpublic1.png" alt="탭퍼블릭 실내 전경" class="w-full h-64 object-cover">
-                        <div class="p-6">
-                            <h4 class="text-xl font-bold">편안한 네트워킹 공간</h4>
-                            <p class="mt-2 text-gray-600">탭퍼블릭의 아늑한 실내에서 자유롭게 대화를 나누세요</p>
+                        <div class="p-6 text-center">
+                            <h4 class="text-2xl font-retro text-retro-dark mb-2">편안한 네트워킹 공간</h4>
+                            <p class="font-fun text-lg">탭퍼블릭의 아늑한 실내에서 자유롭게 대화를 나누세요</p>
                         </div>
                     </div>
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg">
+                    <div class="card-retro overflow-hidden">
                         <img src="tabpublic2.png" alt="다양한 수제 맥주" class="w-full h-64 object-cover">
-                        <div class="p-6">
-                            <h4 class="text-xl font-bold">다양한 수제 맥주</h4>
-                            <p class="mt-2 text-gray-600">취향에 맞는 수제 맥주를 골라 즐기며 네트워킹하세요</p>
+                        <div class="p-6 text-center">
+                            <h4 class="text-2xl font-retro text-retro-dark mb-2">다양한 수제 맥주</h4>
+                            <p class="font-fun text-lg">취향에 맞는 수제 맥주를 골라 즐기며 네트워킹하세요</p>
                         </div>
                     </div>
                 </div>
-                
-                <div class="mt-12 text-center bg-gray-50 p-8 rounded-2xl max-w-3xl mx-auto">
-                    <h4 class="text-xl font-bold mb-4">📍 탭퍼블릭 판교점</h4>
-                    <p class="text-gray-600">경기 성남시 분당구 분당내곡로 131. 테크원타워 1층</p>
-                    <p class="text-gray-600 mt-2">판교역 1번 출구에서 도보 3분</p>
+
+                <div class="mt-16 bg-retro-blue text-white p-10 rounded-2xl border-4 border-retro-dark max-w-3xl mx-auto text-center card-retro">
+                    <h4 class="text-3xl font-retro mb-4">📍 오시는 길</h4>
+                    <p class="text-xl font-fun mb-2">탭퍼블릭 판교점</p>
+                    <p class="text-lg">경기도 성남시 분당구 판교역로 235 H스퀘어 N동 지하 1층</p>
+                    <p class="text-lg mt-4">🚇 신분당선 판교역 4번 출구 도보 3분</p>
                 </div>
             </div>
         </section>
 
-        <section id="tickets" class="py-16 md:py-24 bg-yellow-50">
-            <div class="container mx-auto px-6">
-                <div class="text-center mb-12">
-                    <h3 class="section-title text-3xl md:text-4xl">참가 신청 안내</h3>
-                    <p class="mt-4 max-w-2xl mx-auto text-gray-600">
-                        퀄리티 있는 행사를 위해 소정의 참가비가 있습니다. 망설이면 품절됩니다!
-                    </p>
-                    <p class="mt-2 max-w-2xl mx-auto text-lg font-bold text-yellow-600">
-                        ✨ 참가비에는 수제 맥주 🍺, 음료수 🥤, 맛있는 안주 🍗가 모두 포함되어 있습니다! ✨
-                    </p>
+        <section id="ticket" class="py-20 md:py-32 bg-retro-red relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute transform -rotate-12 left-20 bottom-20 w-48 h-48 bg-retro-yellow"></div>
+                <div class="absolute transform rotate-45 right-10 top-10 w-64 h-64 bg-retro-blue rounded-full"></div>
+            </div>
+            <div class="container mx-auto px-6 relative z-10">
+                <div class="text-center mb-16">
+                    <h3 class="font-retro text-4xl md:text-6xl text-white text-shadow-retro mb-4">티켓 안내</h3>
+                    <p class="text-xl font-fun text-white bg-retro-dark/80 inline-block px-6 py-3 rounded-lg">수익금은 모두 커뮤니티 운영에 사용됩니다</p>
                 </div>
-                
-                <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 items-center">
-                    <div class="bg-white p-8 rounded-2xl shadow-lg border-2 border-yellow-400">
-                        <span class="text-sm font-bold bg-yellow-400 text-white px-3 py-1 rounded-full">얼리버드 (선착순 50매)</span>
-                        <p class="text-5xl font-black my-4">10,000원</p>
-                        <p class="text-gray-600">선착순 특별 할인가!</p>
-                        <button class="w-full mt-6 py-3 rounded-lg text-lg font-bold btn-primary">
-                            얼리버드 신청
-                        </button>
+
+                <div class="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto mb-16">
+                    <div class="bg-white p-8 rounded-2xl border-4 border-retro-dark transform -rotate-2 hover:rotate-0 transition-transform">
+                        <h4 class="text-3xl font-retro text-retro-dark mb-4">🌟 얼리버드</h4>
+                        <div class="text-5xl font-retro text-retro-orange mb-4">15,000원</div>
+                        <p class="font-fun text-xl text-gray-700 mb-6">선착순 100명 한정</p>
+                        <ul class="space-y-2 font-fun text-lg">
+                            <li>✅ 웰컴 드링크 1잔</li>
+                            <li>✅ 네트워킹 참여</li>
+                            <li>✅ 경품 추첨 기회</li>
+                        </ul>
                     </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-sm">
-                        <span class="text-sm font-bold bg-gray-700 text-white px-3 py-1 rounded-full">일반 티켓</span>
-                        <p class="text-5xl font-black my-4">20,000원</p>
-                        <p class="text-gray-600">&nbsp;</p>
-                         <button class="w-full mt-6 py-3 rounded-lg text-lg font-bold btn-primary">
-                            일반 신청
-                        </button>
+                    <div class="bg-white p-8 rounded-2xl border-4 border-retro-dark transform rotate-2 hover:rotate-0 transition-transform">
+                        <h4 class="text-3xl font-retro text-retro-dark mb-4">🎫 일반 티켓</h4>
+                        <div class="text-5xl font-retro text-retro-blue mb-4">20,000원</div>
+                        <p class="font-fun text-xl text-gray-700 mb-6">얼리버드 마감 후</p>
+                        <ul class="space-y-2 font-fun text-lg">
+                            <li>✅ 웰컴 드링크 1잔</li>
+                            <li>✅ 네트워킹 참여</li>
+                            <li>✅ 경품 추첨 기회</li>
+                        </ul>
                     </div>
                 </div>
 
-                <div class="mt-12 text-center bg-white p-6 rounded-2xl max-w-4xl mx-auto shadow-sm">
-                    <h4 class="font-bold text-xl">신청 마감까지 남은 시간</h4>
-                    <div id="countdown" class="text-4xl font-black tracking-widest mt-2 text-yellow-600">
-                        <span id="days">00</span>:<span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+                <div class="text-center">
+                    <div class="bg-white text-retro-dark p-8 rounded-2xl border-4 border-retro-dark inline-block">
+                        <h4 class="text-2xl font-retro mb-4">⏰ 신청 마감까지</h4>
+                        <div id="countdown" class="text-5xl font-retro text-retro-red">
+                            <span id="days">00</span>:<span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+                        </div>
+                        <p class="text-lg font-fun mt-4">신청 기간: ~ 6월 25일 (수) 23시 59분 59초까지</p>
                     </div>
-                    <p class="text-sm text-gray-500 mt-2">신청 기간: ~ 6월 25일 (수) 23시 59분 59초까지</p>
                 </div>
             </div>
         </section>
 
-        <section id="involved" class="py-16 md:py-24">
-            <div class="container mx-auto px-6 text-center">
-                <h3 class="section-title text-3xl md:text-4xl">함께 행사를 만들어요!</h3>
-                 <p class="mt-4 max-w-2xl mx-auto text-gray-600">
-                    'AI Hope Day'를 더욱 풍성하게 만들고 싶다면 지금 바로 지원해주세요.
+        <section id="involved" class="py-20 md:py-32 bg-retro-blue relative">
+            <div class="container mx-auto px-6 text-center relative z-10">
+                <h3 class="font-retro text-4xl md:text-6xl text-white text-shadow-retro mb-8">함께 행사를 만들어요!</h3>
+                <p class="text-xl font-fun text-white bg-retro-dark/70 inline-block px-8 py-4 rounded-lg mb-12">
+                    'AI Hope Day'를 더욱 풍성하게 만들고 싶다면 지금 바로 지원해주세요
                 </p>
-                <div class="mt-12 grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300">
-                        <h4 class="text-2xl font-bold">서포터즈 모집 (3명)</h4>
-                        <p class="mt-2 text-gray-600">행사 당일 원활한 진행을 도와주세요. 참가비 면제와 소정의 기념품을 드립니다.</p>
-                        <p class="mt-2 text-sm text-yellow-600 font-bold">📅 모집 마감: 6월 23일까지</p>
-                        <button class="mt-6 px-6 py-2 rounded-full font-bold border-2 border-yellow-400 text-yellow-500 hover:bg-yellow-400 hover:text-white transition">
-                           서포터즈 지원하기
+                <div class="grid md:grid-cols-2 gap-10 max-w-4xl mx-auto">
+                    <div class="bg-white p-8 rounded-2xl border-4 border-retro-dark card-retro">
+                        <h4 class="text-2xl font-retro text-retro-dark mb-3">서포터즈 모집 (3명)</h4>
+                        <p class="font-fun text-lg text-gray-700 mb-4">행사 당일 원활한 진행을 도와주세요. 참가비 면제와 소정의 기념품을 드립니다.</p>
+                        <p class="text-lg font-bold text-retro-orange mb-6">📅 모집 마감: 6월 23일까지</p>
+                        <button class="px-8 py-3 btn-retro rounded-lg font-retro">
+                            서포터즈 지원하기
                         </button>
                     </div>
-                    <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow duration-300">
-                        <h4 class="text-2xl font-bold">AI 전문가 추천</h4>
-                        <p class="mt-2 text-gray-600">만나고 싶은 사내외 AI 전문가가 있다면? 자유롭게 추천하고 함께 만날 기회를 만드세요.</p>
-                        <p class="mt-2 text-sm text-yellow-600 font-bold">📅 추천 마감: 6월 25일까지</p>
-                        <button class="mt-6 px-6 py-2 rounded-full font-bold border-2 border-yellow-400 text-yellow-500 hover:bg-yellow-400 hover:text-white transition">
+                    <div class="bg-white p-8 rounded-2xl border-4 border-retro-dark card-retro">
+                        <h4 class="text-2xl font-retro text-retro-dark mb-3">AI 전문가 추천</h4>
+                        <p class="font-fun text-lg text-gray-700 mb-4">만나고 싶은 사내외 AI 전문가가 있다면? 자유롭게 추천하고 함께 만날 기회를 만드세요.</p>
+                        <p class="text-lg font-bold text-retro-orange mb-6">📅 추천 마감: 6월 25일까지</p>
+                        <button class="px-8 py-3 btn-retro rounded-lg font-retro">
                             리더 추천하기
                         </button>
                     </div>
                 </div>
-                <div class="mt-12 text-center">
-                    <p class="text-gray-600">기타 문의사항은 robin.hwang에게 연락주세요: <a href="mailto:robin.hwang@kakaocorp.com" class="text-yellow-600 hover:text-yellow-500 font-bold">robin.hwang@kakaocorp.com</a></p>
+                <div class="mt-16">
+                    <p class="text-white font-fun text-xl">기타 문의사항은 robin.hwang에게 연락주세요</p>
+                    <a href="mailto:robin.hwang@kakaocorp.com" class="text-retro-yellow text-2xl font-bold hover:text-white transition">robin.hwang@kakaocorp.com</a>
                 </div>
             </div>
         </section>
     </main>
     
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="container mx-auto px-6 text-center text-gray-400">
-            <p>&copy; 2025 ChatGPT와 AI 사용자 모임. All rights reserved.</p>
-            <p class="text-sm mt-2">본 페이지는 <a href="https://hellovibe.io/" target="_blank" rel="noopener noreferrer" class="text-yellow-400 hover:text-yellow-300">Claude Code</a>로 제작되었습니다.</p>
+    <footer class="bg-retro-dark text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <p class="font-fun text-lg">&copy; 2025 ChatGPT와 AI 사용자 모임. All rights reserved.</p>
+            <p class="text-sm mt-2">본 페이지는 <a href="https://hellovibe.io/" target="_blank" rel="noopener noreferrer" class="text-retro-yellow hover:text-retro-orange transition">Claude Code</a>로 제작되었습니다.</p>
         </div>
     </footer>
 
@@ -474,20 +659,15 @@
             const growthData = {
                 labels: ['3개월 전', '현재', '목표!'],
                 datasets: [{
-                    label: '아지트 멤버 수',
+                    label: '커뮤니티 성장',
                     data: [3000, 3600, 4000],
                     backgroundColor: [
-                        'rgba(255, 220, 98, 0.6)',
-                        'rgba(255, 199, 0, 0.8)',
-                        'rgba(255, 159, 64, 0.6)'
+                        '#4ECDC4',
+                        '#FF6B35',
+                        '#FFD93D'
                     ],
-                    borderColor: [
-                        'rgba(255, 220, 98, 1)',
-                        'rgba(255, 199, 0, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 2,
-                    borderRadius: 8,
+                    borderColor: '#2C3E50',
+                    borderWidth: 4
                 }]
             };
 
@@ -504,7 +684,7 @@
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    return context.dataset.label + ': ' + context.parsed.y + '명';
+                                    return context.parsed.y + '명';
                                 }
                             }
                         }
@@ -512,8 +692,10 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            grid: {
-                                color: '#e5e7eb'
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '명';
+                                }
                             }
                         },
                         x: {
@@ -547,7 +729,7 @@
                 const textHour = Math.floor((gap % day) / hour).toString().padStart(2, '0');
                 const textMinute = Math.floor((gap % hour) / minute).toString().padStart(2, '0');
                 const textSecond = Math.floor((gap % minute) / second).toString().padStart(2, '0');
-                
+
                 document.getElementById('days').innerText = textDay;
                 document.getElementById('hours').innerText = textHour;
                 document.getElementById('minutes').innerText = textMinute;
@@ -556,17 +738,7 @@
 
             setInterval(countdown, 1000);
             countdown();
-            
-            const navLinks = document.querySelectorAll('header nav a');
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
-                });
-            });
         });
     </script>
 </body>
 </html>
-
