@@ -1,8 +1,7 @@
-index.i(신명철) 섭외중 / 카카오 / Large Language Model
 andrew.0(양정석) / 카카오 / AI Engineering 
 benedict.lee(이호정) / 카카오 / AI Native Company TF
 marko.k(김민석) / 카카오 / AI Alignment
 joel.j(장원준) / 카카오 / AI Alignment
 herschel.alway(오창화) / 카카오 / 클린플랫폼
-young.psh(박시용) / 카카오모빌리티 / 차량관리서비스파트
+young.psy(박시용) / 카카오모빌리티 / 차량관리서비스파트
 tony(차현승) / (확인중) / 카카오 AI Advanced 교육 강사
