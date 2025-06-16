@@ -14,13 +14,22 @@
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body { font-family: 'Noto Sans KR', sans-serif; }
+        @keyframes scrollDown {
+            0% {
+                background-position: center 0%;
+            }
+            100% {
+                background-position: center 100%;
+            }
+        }
         .hero-bg {
             background-color: #1a1a1a;
             background-image: url('logo.png');
             background-size: cover;
             background-position: center;
-            background-repeat: no-repeat;
+            background-repeat: repeat-y;
             position: relative;
+            animation: scrollDown 10s linear infinite;
         }
         .hero-bg::before {
             content: '';
@@ -38,14 +47,6 @@
         .hero-bg > * {
             position: relative;
             z-index: 2;
-        }
-        .hero-content {
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-            padding: 3rem;
-            border-radius: 20px;
-            display: inline-block;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
         .gradient-text {
             background: linear-gradient(90deg, #FFC700, #FFDC62);
@@ -82,7 +83,7 @@
 
     <header class="bg-white/80 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
         <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-            <h1 class="text-xl font-bold text-gray-800">AI Hope Day</h1>
+            <h1 class="text-xl font-bold text-gray-800">ChatGPT와 AI 사용자 모임</h1>
             <div class="space-x-4 hidden md:block">
                 <a href="#growth" class="text-gray-600 hover:text-yellow-500 transition">행사배경</a>
                 <a href="#details" class="text-gray-600 hover:text-yellow-500 transition">핵심정보</a>
@@ -95,20 +96,18 @@
     <main>
         <section class="hero-bg text-white py-20 md:py-32">
             <div class="container mx-auto px-6 text-center">
-                <div class="hero-content">
-                    <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-tight">
-                        <span class="gradient-text">AI Hope Day</span>
-                    </h2>
-                    <p class="text-lg md:text-2xl mt-4 font-bold">AI에 대한 희망(Hope)과 시원한 호프(Hof) 한 잔!</p>
-                    <p class="text-gray-300 mt-2 max-w-2xl mx-auto">카카오 공동체 AI 네트워킹 파티에 여러분을 초대합니다.</p>
-                    <div class="mt-8 text-xl font-bold space-y-2">
-                        <p>🗓️ 7월 1일 (화) 저녁 6시</p>
-                        <p>📍 판교역 탭퍼블릭</p>
-                    </div>
-                    <button onclick="document.getElementById('tickets').scrollIntoView({ behavior: 'smooth' });" class="mt-10 px-8 py-4 rounded-full text-lg font-bold btn-primary">
-                        지금 바로 신청하기
-                    </button>
+                <h2 class="text-4xl md:text-6xl font-black tracking-tighter leading-tight">
+                    <span class="gradient-text">AI Hope Day</span>
+                </h2>
+                <p class="text-lg md:text-2xl mt-4 font-bold">AI에 대한 희망(Hope)과 시원한 호프(Hof) 한 잔!</p>
+                <p class="text-gray-300 mt-2 max-w-2xl mx-auto">카카오 공동체 AI 네트워킹 파티에 여러분을 초대합니다.</p>
+                <div class="mt-8 text-xl font-bold space-y-2">
+                    <p>🗓️ 7월 1일 (화) 저녁 6시</p>
+                    <p>📍 판교역 탭퍼블릭</p>
                 </div>
+                <button onclick="document.getElementById('tickets').scrollIntoView({ behavior: 'smooth' });" class="mt-10 px-8 py-4 rounded-full text-lg font-bold btn-primary">
+                    지금 바로 신청하기
+                </button>
             </div>
         </section>
         
@@ -160,6 +159,57 @@
                         <li class="flex items-center justify-center"><span class="text-yellow-500 mr-2">✔️</span> AI 전문가들과 네트워크를 만들고 싶으신 분</li>
                     </ul>
                 </div>
+
+                <div class="mt-16 bg-gradient-to-r from-yellow-50 to-yellow-100 p-8 rounded-2xl shadow-lg text-center">
+                    <h4 class="text-3xl font-bold text-gray-800 mb-4">🎁 특별 경품 이벤트</h4>
+                    <p class="text-xl font-bold text-gray-700 mb-6">4,000명 달성 기원! 행사 당일 추첨</p>
+                    <div class="max-w-2xl mx-auto bg-white rounded-xl overflow-hidden shadow-md">
+                        <img src="f108.jpg" alt="F108 독거미 키보드" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h5 class="text-2xl font-bold mb-2">F108 독거미 키보드</h5>
+                            <p class="text-gray-600 mb-4">장안의 화제! 가성비 극강의 프리미엄 기계식 키보드</p>
+                            <div class="bg-yellow-100 p-4 rounded-lg">
+                                <p class="text-lg font-bold text-yellow-800">총 4명 추첨</p>
+                                <p class="text-sm text-gray-600 mt-1">행사 참가자 대상 현장 추첨</p>
+                                <p class="text-sm text-gray-600">색상 별 2명씩</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="venue" class="py-16 md:py-24 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="section-title text-3xl md:text-4xl">행사 장소 안내</h3>
+                    <p class="mt-4 max-w-2xl mx-auto text-gray-600">
+                        판교역 인근 탭퍼블릭에서 편안한 분위기 속에서 진행됩니다.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg">
+                        <img src="tabpublic1.png" alt="탭퍼블릭 실내 전경" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold">편안한 네트워킹 공간</h4>
+                            <p class="mt-2 text-gray-600">탭퍼블릭의 아늑한 실내에서 자유롭게 대화를 나누세요</p>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg">
+                        <img src="tabpublic2.png" alt="다양한 수제 맥주" class="w-full h-64 object-cover">
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold">다양한 수제 맥주</h4>
+                            <p class="mt-2 text-gray-600">취향에 맞는 수제 맥주를 골라 즐기며 네트워킹하세요</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12 text-center bg-gray-50 p-8 rounded-2xl max-w-3xl mx-auto">
+                    <h4 class="text-xl font-bold mb-4">📍 탭퍼블릭 판교점</h4>
+                    <p class="text-gray-600">경기 성남시 분당구 분당내곡로 131. 테크원타워 1층</p>
+                    <p class="text-gray-600 mt-2">판교역 1번 출구에서 도보 3분</p>
+                </div>
             </div>
         </section>
 
@@ -176,16 +226,16 @@
                     <div class="bg-white p-8 rounded-2xl shadow-lg border-2 border-yellow-400">
                         <span class="text-sm font-bold bg-yellow-400 text-white px-3 py-1 rounded-full">얼리버드 (선착순 50매)</span>
                         <p class="text-5xl font-black my-4">10,000원</p>
-                        <p class="text-gray-600">이번 주 한정 특별 할인가!</p>
+                        <p class="text-gray-600">선착순 특별 할인가!</p>
                         <button class="w-full mt-6 py-3 rounded-lg text-lg font-bold btn-primary">
                             얼리버드 신청
                         </button>
                     </div>
                     <div class="bg-white p-8 rounded-2xl shadow-sm">
-                        <span class="text-sm font-bold bg-gray-300 text-gray-700 px-3 py-1 rounded-full">일반 티켓</span>
-                        <p class="text-5xl font-black my-4 text-gray-500">20,000원</p>
-                        <p class="text-gray-600">다음 주 부터 구매 가능합니다.</p>
-                         <button class="w-full mt-6 py-3 rounded-lg text-lg font-bold bg-gray-300 text-gray-600 cursor-not-allowed">
+                        <span class="text-sm font-bold bg-gray-700 text-white px-3 py-1 rounded-full">일반 티켓</span>
+                        <p class="text-5xl font-black my-4">20,000원</p>
+                        <p class="text-gray-600">얼리버드 소진 후 구매 가능</p>
+                         <button class="w-full mt-6 py-3 rounded-lg text-lg font-bold btn-primary">
                             일반 신청
                         </button>
                     </div>
@@ -229,7 +279,7 @@
     
     <footer class="bg-gray-800 text-white py-8">
         <div class="container mx-auto px-6 text-center text-gray-400">
-            <p>&copy; 2025 Kakao Community. All rights reserved.</p>
+            <p>&copy; 2025 ChatGPT와 AI 사용자 모임. All rights reserved.</p>
             <p class="text-sm mt-2">본 페이지는 'AI Hope Day' 행사 안내를 위해 제작되었습니다.</p>
         </div>
     </footer>
