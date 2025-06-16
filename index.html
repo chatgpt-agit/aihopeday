@@ -227,7 +227,7 @@
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="flex items-center gap-4" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
                 <img src="retro.png" alt="ABCD AI BEER CHAT DAY" class="h-12 md:h-16 object-contain cursor-pointer hover:scale-105 transition-transform">
-                <h1 class="text-2xl font-retro text-retro-dark hidden sm:block">AI BEER CHAT DAY</h1>
+                <h1 class="text-xl sm:text-2xl font-retro text-retro-dark">AI BEER CHAT DAY</h1>
             </a>
             <div class="space-x-6 hidden md:block">
                 <a href="#about" class="font-fun text-lg hover:text-retro-red transition font-bold" onclick="event.preventDefault(); document.getElementById('about').scrollIntoView({behavior: 'smooth'});">행사소개</a>
@@ -241,11 +241,7 @@
     <main>
         <section id="hero" class="hero-bg text-white py-20 md:py-32 relative noise">
             <div class="container mx-auto px-6 text-center">
-                <div class="sticker top-10 right-10 hidden md:block">
-                    <span class="text-2xl">🍺</span>
-                    <span class="text-sm">BEER!</span>
-                </div>
-                
+
                 <div class="relative inline-block mb-8">
                     <img src="retro.png" alt="AI BEER CHAT DAY" class="w-64 md:w-96 mx-auto rounded-lg border-8 border-white shadow-2xl animate-float">
                 </div>
@@ -302,6 +298,29 @@
                 <div class="text-center mb-16">
                     <h3 class="font-retro text-4xl md:text-6xl text-retro-dark text-shadow-pop">AI BEER CHAT DAY</h3>
                     <div class="text-2xl font-fun text-retro-red mt-4">편하게 맥주 한 잔 하면서 AI 전문가와 대화를 나누세요!</div>
+                </div>
+
+                <!-- YouTube 영상 -->
+                <div class="max-w-4xl mx-auto mt-16 mb-16">
+                    <div class="relative rounded-2xl border-4 border-retro-dark shadow-lg overflow-hidden card-retro" style="padding-bottom: 56.25%;">
+                        <iframe 
+                            id="youtube-player"
+                            src="https://www.youtube.com/embed/paIcdIrjPFE?controls=0&modestbranding=1&rel=0&showinfo=0&enablejsapi=1" 
+                            title="AI BEER CHAT DAY 소개 영상"
+                            class="absolute top-0 left-0 w-full h-full"
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen>
+                        </iframe>
+                        <!-- 커스텀 플레이 버튼 오버레이 -->
+                        <div id="play-overlay" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 cursor-pointer hover:bg-opacity-20 transition-all">
+                            <div class="bg-retro-yellow border-4 border-retro-dark rounded-full w-24 h-24 flex items-center justify-center transform hover:scale-110 transition-transform shadow-lg">
+                                <svg class="w-10 h-10 text-retro-dark ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M5 4v12l10-6z"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="bg-retro-yellow p-10 rounded-2xl border-4 border-retro-dark card-retro text-center max-w-3xl mx-auto mt-16">
@@ -752,6 +771,65 @@
 
             setInterval(countdown, 1000);
             countdown();
+
+            // YouTube 플레이어 커스텀 컨트롤
+            const playOverlay = document.getElementById('play-overlay');
+            const youtubePlayer = document.getElementById('youtube-player');
+            let player;
+            let isPlaying = false;
+            
+            // YouTube Player API 로드
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            // API 준비되면 플레이어 초기화
+            window.onYouTubeIframeAPIReady = function() {
+                player = new YT.Player('youtube-player', {
+                    events: {
+                        'onReady': function(event) {
+                            console.log('YouTube player ready');
+                        },
+                        'onStateChange': function(event) {
+                            console.log('Player state:', event.data);
+                            // 재생 중
+                            if (event.data === YT.PlayerState.PLAYING) {
+                                isPlaying = true;
+                                playOverlay.style.display = 'none';
+                            }
+                            // 비디오가 끝났을 때
+                            else if (event.data === YT.PlayerState.ENDED) {
+                                isPlaying = false;
+                                // 플레이 오버레이 다시 표시
+                                playOverlay.style.display = 'flex';
+                                // 비디오를 처음으로 되돌리기
+                                player.seekTo(0);
+                                player.stopVideo();
+                            }
+                            // 일시정지
+                            else if (event.data === YT.PlayerState.PAUSED && isPlaying) {
+                                playOverlay.style.display = 'flex';
+                            }
+                        }
+                    }
+                });
+            };
+            
+            if (playOverlay) {
+                playOverlay.addEventListener('click', function() {
+                    if (player && player.playVideo) {
+                        player.playVideo();
+                    } else {
+                        // fallback: API가 로드되지 않은 경우
+                        playOverlay.style.display = 'none';
+                        const currentSrc = youtubePlayer.src;
+                        const baseSrc = currentSrc.split('?')[0];
+                        const params = '?controls=0&modestbranding=1&rel=0&showinfo=0&autoplay=1&enablejsapi=1';
+                        youtubePlayer.src = baseSrc + params;
+                    }
+                });
+            }
         });
     </script>
 </body>
